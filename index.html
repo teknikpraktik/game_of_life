@@ -15,6 +15,11 @@
       <p class="intro">Rita ett startmönster och tryck Start. Varje cell känner bara till sina åtta grannar – ändå kan signaler, oscillatorer och i princip kompletta datorer uppstå.</p>
     </header>
 
+    <nav class="view-tabs" role="tablist" aria-label="Vyer">
+      <button type="button" role="tab" id="tabLab" data-view="lab" aria-selected="true">Laboratorium</button>
+      <button type="button" role="tab" id="tabLogic" data-view="logic" aria-selected="false">Från glider till logik</button>
+    </nav>
+
     <section class="rules" aria-label="Regler">
       <div><strong>0–1</strong><span>grannar → dör</span></div>
       <div><strong>2–3</strong><span>grannar → överlever</span></div>
@@ -22,11 +27,14 @@
       <div><strong>3</strong><span>grannar kring död cell → föds</span></div>
     </section>
 
-    <section class="controls" aria-label="Simuleringskontroller">
+    <nav id="stepNav" class="step-nav" aria-label="Steg i lektionen" hidden></nav>
+
+    <section id="controls" class="controls" aria-label="Simuleringskontroller">
       <button id="runBtn" class="primary">Starta</button>
       <button id="stepBtn">Ett steg</button>
       <button id="randomBtn">Slumpa</button>
       <button id="clearBtn">Rensa</button>
+      <button id="resetBtn" hidden>Återställ</button>
       <label>Hastighet
         <input id="speed" type="range" min="40" max="500" step="20" value="420" />
       </label>
@@ -35,11 +43,32 @@
 
     <section class="workspace">
       <div class="board-wrap">
-        <div id="board" class="board" aria-label="Game of Life-rutnät"></div>
-        <p class="hint">Klicka eller dra över rutorna för att rita. Starta sedan simuleringen.</p>
+        <div id="boardArea">
+          <div id="viewport" class="viewport">
+            <div id="layer" class="layer">
+              <div id="board" class="board" role="img" aria-label="Game of Life-rutnät"></div>
+              <div id="labels" class="labels" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="board-tools" aria-label="Zoom och panorering">
+            <div class="segmented" role="group" aria-label="Verktyg">
+              <button type="button" id="drawModeBtn" aria-pressed="true">Rita</button>
+              <button type="button" id="panModeBtn" aria-pressed="false">Panorera</button>
+            </div>
+            <div class="zoom" role="group" aria-label="Zoom">
+              <button type="button" id="zoomOutBtn" aria-label="Zooma ut">−</button>
+              <span id="zoomLevel">100 %</span>
+              <button type="button" id="zoomInBtn" aria-label="Zooma in">+</button>
+              <button type="button" id="zoomFitBtn">Visa allt</button>
+            </div>
+          </div>
+          <p id="hint" class="hint">Klicka eller dra över rutorna för att rita. Starta sedan simuleringen. Zooma med knapparna, Ctrl + scroll eller två fingrar.</p>
+        </div>
+        <div id="schematic" class="schematic" hidden></div>
+        <div id="lessonPanel" class="lesson-panel" hidden></div>
       </div>
 
-      <aside>
+      <aside id="labAside">
         <h2>Färdiga mönster</h2>
         <div id="patternButtons" class="pattern-buttons"></div>
         <div class="explain">
@@ -51,11 +80,24 @@
           <p><b>Cellerna är bara 0 eller 1.</b> Reglerna ändras aldrig. Det som fungerar som ett ”program” är istället startmönstrets geometri.</p>
           <p>Gliders kan bära information. Kollisioner mellan mönster kan byggas till logiska grindar. Grindar kan kombineras till minne och beräkning.</p>
           <div class="flow"><span>mönster</span><i>→</i><span>signaler</span><i>→</i><span>logik</span><i>→</i><span>dator</span></div>
+          <p class="more"><button type="button" class="link" data-view="logic">Följ resan steg för steg →</button></p>
+        </div>
+      </aside>
+
+      <aside id="logicAside" hidden>
+        <p id="lessonCount" class="step-count"></p>
+        <h2 id="lessonTitle"></h2>
+        <p id="lessonBadge" class="badge"></p>
+        <div id="lessonText" class="lesson-text"></div>
+        <div class="lesson-nav">
+          <button type="button" id="prevStepBtn">← Föregående</button>
+          <button type="button" id="nextStepBtn" class="primary">Nästa →</button>
         </div>
       </aside>
     </section>
 
-    <footer><strong>Test:</strong> Ladda ”Gosper glider gun”, starta och följ de små gliders som produceras periodiskt. Det är ett konkret steg från ett statiskt mönster till en signalgenerator.</footer>
+    <footer id="labFooter"><strong>Test:</strong> Ladda ”Gosper glider gun”, starta och följ de små gliders som produceras periodiskt. Det är ett konkret steg från ett statiskt mönster till en signalgenerator.</footer>
+    <footer id="logicFooter" hidden><strong>Viktigt:</strong> I steg 1–5 är allt du ser riktig Game of Life med samma fyra regler som ovan – banor, etiketter och mottagare är bara markeringar ovanpå rutnätet. Steg 6 är en schematisk förklaring och simuleras inte cell för cell.</footer>
   </main>
 
   <script src="app.js"></script>
