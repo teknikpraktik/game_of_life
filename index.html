@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Game of Life Lab</title>
+  <meta name="description" content="Utforska Conway's Game of Life, emergens och beräkning." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="eyebrow">CELLULÄR AUTOMAT · EMERGENS · BERÄKNING</p>
+      <h1>Conway's Game of Life Lab</h1>
+      <p class="intro">Rita ett startmönster och tryck Start. Varje cell känner bara till sina åtta grannar – ändå kan signaler, oscillatorer och i princip kompletta datorer uppstå.</p>
+    </header>
+
+    <section class="rules" aria-label="Regler">
+      <div><strong>0–1</strong><span>grannar → dör</span></div>
+      <div><strong>2–3</strong><span>grannar → överlever</span></div>
+      <div><strong>4+</strong><span>grannar → dör</span></div>
+      <div><strong>3</strong><span>grannar kring död cell → föds</span></div>
+    </section>
+
+    <section class="controls" aria-label="Simuleringskontroller">
+      <button id="runBtn" class="primary">Starta</button>
+      <button id="stepBtn">Ett steg</button>
+      <button id="randomBtn">Slumpa</button>
+      <button id="clearBtn">Rensa</button>
+      <label>Hastighet
+        <input id="speed" type="range" min="40" max="500" step="20" value="420" />
+      </label>
+      <div class="stats"><span>Generation <b id="generation">0</b></span><span>Levande <b id="alive">0</b></span></div>
+    </section>
+
+    <section class="workspace">
+      <div class="board-wrap">
+        <div id="board" class="board" aria-label="Game of Life-rutnät"></div>
+        <p class="hint">Klicka eller dra över rutorna för att rita. Starta sedan simuleringen.</p>
+      </div>
+
+      <aside>
+        <h2>Färdiga mönster</h2>
+        <div id="patternButtons" class="pattern-buttons"></div>
+        <div class="explain">
+          <h3 id="patternTitle">Glider</h3>
+          <p id="patternDescription"></p>
+        </div>
+        <div class="concept">
+          <h3>Var finns programmeringen?</h3>
+          <p><b>Cellerna är bara 0 eller 1.</b> Reglerna ändras aldrig. Det som fungerar som ett ”program” är istället startmönstrets geometri.</p>
+          <p>Gliders kan bära information. Kollisioner mellan mönster kan byggas till logiska grindar. Grindar kan kombineras till minne och beräkning.</p>
+          <div class="flow"><span>mönster</span><i>→</i><span>signaler</span><i>→</i><span>logik</span><i>→</i><span>dator</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <footer><strong>Test:</strong> Ladda ”Gosper glider gun”, starta och följ de små gliders som produceras periodiskt. Det är ett konkret steg från ett statiskt mönster till en signalgenerator.</footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
